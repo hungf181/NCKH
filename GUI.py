@@ -8,7 +8,7 @@ def fsinhvien():
     sinhvien()
 
 window = Tk()
-window.title('Hệ thống quản lý - Điểm danh sinh viên')
+window.title('Hệ thống quản lý - Điểm danh sinh viên' )
 window.geometry('1200x760')
 window.minsize(1400, 760)
 window.maxsize(1400, 760)

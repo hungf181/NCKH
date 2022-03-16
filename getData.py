@@ -10,10 +10,10 @@ from GUI_SV import *
 import numpy as np
 import os
 
+
 def getData(window):
-    
     face = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-    bg = PhotoImage(file="camera.png")
+    # bg = PhotoImage(file="camera.png")
     labelfrm = LabelFrame(window, width=1400, height=760, bd=0)
     labelfrm.place(x=0, y=0)
     labelframe_left = LabelFrame(labelfrm, width=680, height=750, bg='#CFCFCF')
@@ -25,13 +25,12 @@ def getData(window):
 
     labelframe_left_top = LabelFrame(labelframe_left, text='Lấy dữ liệu từ Webcam', width=665, height=500, bg='#CFCFCF')
     labelframe_left_top.place(x=5, y=50)
-    
 
     labelframe_left_bottom = LabelFrame(labelframe_left, text='', width=665, height=190, bg='#CFCFCF')
     labelframe_left_bottom.place(x=5, y=552)
     labelframe_right_top = LabelFrame(labelframe_right, text='Kết quả lấy dữ liệu', width=675, height=450, bg='#CFCFCF')
     labelframe_right_top.place(x=5, y=50)
-    labelframe_right_bottom = LabelFrame(labelframe_right, text='', width=675, height=197+50, bg='#CFCFCF')
+    labelframe_right_bottom = LabelFrame(labelframe_right, text='', width=675, height=197 + 50, bg='#CFCFCF')
     labelframe_right_bottom.place(x=5, y=495)
     # Hình ảnh
     labelframe_image = Label(labelframe_right_top, text='Hinh ảnh', width=150, height=150, bd=5, bg='#CFCFCF')
@@ -75,7 +74,7 @@ def getData(window):
     tv2.heading('Lophoc', text='Lớp học')
     tv2.column('Lophoc', anchor='center', width=104)
     listStudent(tv2, getInfor())
-    #Hiển thị cam
+    # Hiển thị cam
     canvas = Canvas(labelframe_left_top, width=640, height=450)
     canvas.place(relx=0.5, rely=0.5, anchor='center')
     photo = None
@@ -94,7 +93,8 @@ def getData(window):
             index += 1
             if index <= int(soanh.get()):
                 Label(labelframe_left_bottom, text="Số ảnh: {0}/{1}".format(str(index), soanh.get())).place(x=10, y=10)
-                cv2.imwrite('dataSet/User.{0}.{1}.jpg'.format(id, index), cv2.resize(img[y:y + h, x:x + w], dsize=(300, 300)))
+                cv2.imwrite('dataSet/User.{0}.{1}.jpg'.format(id, index),
+                            cv2.resize(img[y:y + h, x:x + w], dsize=(300, 300)))
             if index == int(soanh.get()) + 1:
                 messagebox.showinfo('Thông báo', 'Đã lấy ảnh xong, bạn có thể tắt camera!')
         photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(frame))
@@ -102,7 +102,7 @@ def getData(window):
         label.after(15, lambda: update_frame(canvas, photo, labelframe_left_top, index, id, cap))
 
     def laydulieu():
-        if maSV.get()=='':
+        if maSV.get() == '':
             messagebox.showerror('Thông báo', 'Chọn một sinh viên bất kỳ để lấy dữ liệu!')
         else:
             cap = cv2.VideoCapture(0)
@@ -142,9 +142,17 @@ def getData(window):
         select_record_st()
 
     tv2.bind("<ButtonRelease-1>", clicker_st)
-    Button(labelframe_right_bottom, text="MENU CHÍNH", height=2, width=15, bd=0,  bg='#00D7FF', command=exit_f).place(relx=0.5, rely=0.89, anchor='center')
-    Button(labelframe_left_bottom, text="MỞ WEBCAM", height=2, width=15, bd=0, bg='#00D7FF', command=laydulieu).place(relx=0.2, rely=0.4, anchor='center')
-    Button(labelframe_left_bottom, text="ĐÓNG WEBCAM", height=2, width=15, bd=0, bg='#00D7FF', command=close_cam).place(relx=0.4, rely=0.4, anchor='center')
-    Button(labelframe_left_bottom, text="XEM THƯ MỤC", height=2, width=15, bd=0, bg='#00D7FF', command=open_folder).place(relx=0.6, rely=0.4, anchor='center')
-    Button(labelframe_left_bottom, text="THOÁT", height=2, width=15, bd=0, bg='#00D7FF', command=exit_f).place(relx=0.8, rely=0.4, anchor='center')
-    Button(labelframe_left_bottom, text="TRAINING DỮ LIỆU", height=2, width=25, bd=0, bg='#00D7FF').place(relx=0.5, rely=0.7, anchor='center')
+    Button(labelframe_right_bottom, text="MENU CHÍNH", height=2, width=15, bd=0, bg='#00D7FF', command=exit_f).place(
+        relx=0.5, rely=0.89, anchor='center')
+    Button(labelframe_left_bottom, text="MỞ WEBCAM", height=2, width=15, bd=0, bg='#00D7FF', command=laydulieu).place(
+        relx=0.2, rely=0.4, anchor='center')
+    Button(labelframe_left_bottom, text="ĐÓNG WEBCAM", height=2, width=15, bd=0, bg='#00D7FF', command=close_cam).place(
+        relx=0.4, rely=0.4, anchor='center')
+    Button(labelframe_left_bottom, text="XEM THƯ MỤC", height=2, width=15, bd=0, bg='#00D7FF',
+           command=open_folder).place(relx=0.6, rely=0.4, anchor='center')
+    Button(labelframe_left_bottom, text="THOÁT", height=2, width=15, bd=0, bg='#00D7FF', command=exit_f).place(relx=0.8,
+                                                                                                               rely=0.4,
+                                                                                                               anchor='center')
+    Button(labelframe_left_bottom, text="TRAINING DỮ LIỆU", height=2, width=25, bd=0, bg='#00D7FF').place(relx=0.5,
+                                                                                                          rely=0.7,
+                                                                                                          anchor='center')

@@ -19,12 +19,24 @@ def listStudent(tv, arr):
         tv.insert('', END, values=i)
     tv.place(x=5, y=5)
 
+
 def listTeachers(tv):
     for item in tv.get_children():
         tv.delete(item)
     for i in getGV():
         tv.insert('', END, values=i)
     tv.place(x=280, y=20)
+
+
+def getComboBox(cbName, list):
+    x = []
+    for i in list:
+        x.append(i[1])
+    cbName['values'] = x
+    if x:
+        cbName.current(0)
+    else:
+        cbName.set("")
 
 def sinhvien(window):
     labelfrm = LabelFrame(window, width=1400, height=760, bd=0)
@@ -39,7 +51,6 @@ def sinhvien(window):
     labelframe_left_top.place(x=5, y=50)
     labelframe_left_bottom = LabelFrame(labelframe_left, text='Thông tin lớp học', width=665, height=340, bg='#CFCFCF')
     labelframe_left_bottom.place(x=5, y=400)
-
 
     # labelFrame2
     Label(labelframe_left_top, text='Mã sinh viên: ', bg='#CFCFCF').place(x=20, y=50)
@@ -58,17 +69,13 @@ def sinhvien(window):
     diaChi = Entry(labelframe_left_top, width=30)
     diaChi.place(x=400, y=100)
     lopHoc = ttk.Combobox(labelframe_left_top, width=27)
-    x = []
-    for i in getClass():
-        x.append(i[1])
-    lopHoc['values'] = x
+    getComboBox(lopHoc, getClass())
     lopHoc.place(x=100, y=150)
-    lopHoc.current(0)
+
     gioitinh = ttk.Combobox(labelframe_left_top, width=15)
     gioitinh['values'] = ['Nam', 'Nữ']
     gioitinh.place(x=400, y=150)
     gioitinh.current(0)
-
 
     # labelFrame3
     Label(labelframe_left_bottom, text='Mã lớp: ', bg='#CFCFCF').place(x=20, y=40)
@@ -80,7 +87,7 @@ def sinhvien(window):
     tenlop.place(x=100, y=80)
     khoa = Entry(labelframe_left_bottom, width=30)
     khoa.place(x=100, y=120)
-    #Treeview - Class
+    # Treeview - Class
     tv = ttk.Treeview(labelframe_left_bottom, columns=('Malop', 'Tenlop', 'Khoa'), show='headings', height=10)
     tv.heading('Malop', text='Mã lớp')
     tv.column("Malop", anchor='center', width=80)
@@ -115,7 +122,7 @@ def sinhvien(window):
     labelframe_right_bottom.place(x=5, y=150)
     # Treeview - Student
     col = ('Masv', 'Hoten', 'Gioitinh', 'Diachi', 'Ngaysinh', 'Lophoc')
-    tv2 = ttk.Treeview(labelframe_right_bottom, columns = col, show = 'headings', height = 9)
+    tv2 = ttk.Treeview(labelframe_right_bottom, columns=col, show='headings', height=9)
     tv2.heading('Masv', text='Mã sinh viên')
     tv2.column("Masv", anchor='center', width=104)
     tv2.heading('Hoten', text='Tên sinh viên')
@@ -129,6 +136,7 @@ def sinhvien(window):
     tv2.heading('Lophoc', text='Lớp học')
     tv2.column('Lophoc', anchor='center', width=104)
     listStudent(tv2, getInfor())
+
     def select_record_st():
         maSV.delete(0, END)
         hoTen.delete(0, END)
@@ -149,7 +157,8 @@ def sinhvien(window):
         select_record_st()
 
     tv2.bind("<ButtonRelease-1>", clicker_st)
-    labelframe_right_bottom2 = LabelFrame(labelframe_right, text='Thông tin giảng viên', width=665, height=280, bg='#CFCFCF')
+    labelframe_right_bottom2 = LabelFrame(labelframe_right, text='Thông tin giảng viên', width=665, height=280,
+                                          bg='#CFCFCF')
     labelframe_right_bottom2.place(x=5, y=400)
     Label(labelframe_right_bottom2, text='Mã giáo viên: ', bg='#CFCFCF').place(x=20, y=40)
     Label(labelframe_right_bottom2, text='Tên giáo viên: ', bg='#CFCFCF').place(x=20, y=80)
@@ -174,6 +183,7 @@ def sinhvien(window):
     tv3.heading('Phone', text='Số điện thoại')
     tv3.column("Phone", anchor='center', width=90)
     listTeachers(tv3)
+
     def select_record_gv():
         magv.delete(0, END)
         tengv.delete(0, END)
@@ -185,6 +195,7 @@ def sinhvien(window):
         tengv.insert(0, values[1])
         dcgv.insert(0, values[2])
         phone.insert(0, values[3])
+
     def clicker_gv(e):
         select_record_gv()
 
@@ -202,19 +213,23 @@ def sinhvien(window):
             messagebox.showerror('Thông báo', 'Mã sinh viên không được để trống !')
         else:
             try:
-                insertStudent(maSV.get(), hoTen.get(), gioitinh.get(), diaChi.get(), ngaySinh.get(), getID(lopHoc.get())[0][0])
+                insertStudent(maSV.get(), hoTen.get(), gioitinh.get(), diaChi.get(), ngaySinh.get(),
+                              getID(lopHoc.get())[0][0])
                 listStudent(tv2, getInfor())
             except:
                 messagebox.showerror('Thông báo', 'Lỗi khi thêm mới sinh viên !')
+
     def editSV():
         if maSV.get() == '':
             messagebox.showerror('Thông báo', 'Mã sinh viên không được để trống !')
         else:
             try:
-                editStudent(maSV.get(), hoTen.get(), gioitinh.get(), diaChi.get(), ngaySinh.get(), getID(lopHoc.get())[0][0])
+                editStudent(maSV.get(), hoTen.get(), gioitinh.get(), diaChi.get(), ngaySinh.get(),
+                            getID(lopHoc.get())[0][0])
                 listStudent(tv2, getInfor())
             except:
-                messagebox.showerror('Thông báo','Lỗi khi sửa mới sinh viên !')
+                messagebox.showerror('Thông báo', 'Lỗi khi sửa mới sinh viên !')
+
     def deleteSV():
         a = ''
         if maSV.get() == '':
@@ -226,11 +241,13 @@ def sinhvien(window):
             except:
                 a += 'Lỗi khi xóa một sinh viên!'
         messagebox.showerror('Thông báo', a)
+
     def lookSV():
         if maSVSearch.get() == '':
             listStudent(tv2, getInfor())
         else:
             listStudent(tv2, lookInfor(maSVSearch.get()))
+
     def insertLop():
         if malop.get() == '':
             messagebox.showerror('Thông báo', 'Mã lớp không được để trống!')
@@ -238,8 +255,10 @@ def sinhvien(window):
             try:
                 insertClass(malop.get(), tenlop.get(), khoa.get())
                 listClass(tv)
+                getComboBox(lopHoc, getClass())
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi khi thêm lớp học!')
+
     def deleteLop():
         if malop.get() == '':
             messagebox.showerror('Thông báo', 'Mã lớp không được để trống!')
@@ -247,6 +266,7 @@ def sinhvien(window):
             try:
                 deleteClass(malop.get())
                 listClass(tv)
+                getComboBox(lopHoc, getClass())
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi lỗi khi xóa lớp học!')
 
@@ -257,8 +277,10 @@ def sinhvien(window):
             try:
                 editClass(malop.get(), tenlop.get(), khoa.get())
                 listClass(tv)
+                getComboBox(lopHoc, getClass())
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi khi sửa thông tin lớp học!')
+
     def insertGV():
         if magv.get() == '':
             messagebox.showerror('Thông báo', 'Mã giáo viên không được để trống!')
@@ -268,6 +290,7 @@ def sinhvien(window):
                 listTeachers(tv3)
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi khi thêm thông tin giáo viên !')
+
     def deleteGV():
         if magv.get() == '':
             messagebox.showerror('Thông báo', 'Mã giáo viên không được để trống !')
@@ -277,6 +300,7 @@ def sinhvien(window):
                 listTeachers(tv3)
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi khi xóa thông tin giáo viên !')
+
     def editGV():
         if magv.get() == '':
             messagebox.showerror('Thông báo', 'Mã giáo viên không được để trống !')
@@ -286,28 +310,38 @@ def sinhvien(window):
                 listTeachers(tv3)
             except:
                 messagebox.showerror('Thông báo', 'Có lỗi khi sửa thông tin giáo viên !')
-    #Button - Sinh viên
-    insert_button_sv = Button(labelframe_left_top, text="THÊM MỚI", height=2, width=15, bd=0, bg='#00D7FF', command=insertSV)
+
+    # Button - Sinh viên
+    insert_button_sv = Button(labelframe_left_top, text="THÊM MỚI", height=2, width=15, bd=0, bg='#00D7FF',
+                              command=insertSV)
     insert_button_sv.place(x=150, y=220)
-    edit_button_sv = Button(labelframe_left_top, text="CHỈNH SỬA", height=2, width=15, bd=0, bg='#00D7FF', command=editSV)
+    edit_button_sv = Button(labelframe_left_top, text="CHỈNH SỬA", height=2, width=15, bd=0, bg='#00D7FF',
+                            command=editSV)
     edit_button_sv.place(x=300, y=220)
     delete_button_sv = Button(labelframe_left_top, text="XÓA", height=2, width=15, bd=0, bg='#00D7FF', command=deleteSV)
     delete_button_sv.place(x=450, y=220)
-    #Button - Lớp
-    insert_button = Button(labelframe_left_bottom, text="THÊM MỚI", height=2, width=10, bd=0, bg='#00D7FF', command=insertLop)
+    # Button - Lớp
+    insert_button = Button(labelframe_left_bottom, text="THÊM MỚI", height=2, width=10, bd=0, bg='#00D7FF',
+                           command=insertLop)
     insert_button.place(x=30, y=200)
-    edit_button = Button(labelframe_left_bottom, text="CHỈNH SỬA", height=2, width=10, bd=0, bg='#00D7FF', command=editLop)
+    edit_button = Button(labelframe_left_bottom, text="CHỈNH SỬA", height=2, width=10, bd=0, bg='#00D7FF',
+                         command=editLop)
     edit_button.place(x=130, y=200)
-    delete_button = Button(labelframe_left_bottom, text="XÓA", height=2, width=10, bd=0, bg='#00D7FF', command=deleteLop)
+    delete_button = Button(labelframe_left_bottom, text="XÓA", height=2, width=10, bd=0, bg='#00D7FF',
+                           command=deleteLop)
     delete_button.place(x=230, y=200)
-    #Button - tìm kiếm
+    # Button - tìm kiếm
     search_button = Button(labelframe_right_top, text="TÌM KIẾM", width=15, bd=0, bg='#00D7FF', command=lookSV)
     search_button.place(x=350, y=28)
     # Button - GV
-    insert_button_gv = Button(labelframe_right_bottom2, text="THÊM MỚI", height=2, width=10, bd=0, bg='#00D7FF', command=insertGV)
+    insert_button_gv = Button(labelframe_right_bottom2, text="THÊM MỚI", height=2, width=10, bd=0, bg='#00D7FF',
+                              command=insertGV)
     insert_button_gv.place(relx=0.33, rely=0.85, anchor='center')
-    edit_button_gv = Button(labelframe_right_bottom2, text="CHỈNH SỬA", height=2, width=10, bd=0, bg='#00D7FF', command=editGV)
+    edit_button_gv = Button(labelframe_right_bottom2, text="CHỈNH SỬA", height=2, width=10, bd=0, bg='#00D7FF',
+                            command=editGV)
     edit_button_gv.place(relx=0.5, rely=0.85, anchor='center')
-    delete_button_gv = Button(labelframe_right_bottom2, text="XÓA", height=2, width=10, bd=0, bg='#00D7FF', command=deleteGV)
+    delete_button_gv = Button(labelframe_right_bottom2, text="XÓA", height=2, width=10, bd=0, bg='#00D7FF',
+                              command=deleteGV)
     delete_button_gv.place(relx=0.67, rely=0.85, anchor='center')
-    Button(labelframe_right, text="MENU CHÍNH", height=2, width=15, bd=0, bg='#00D7FF', command=labelfrm.destroy).place(relx=0.5, rely=0.96, anchor='center')
+    Button(labelframe_right, text="MENU CHÍNH", height=2, width=15, bd=0, bg='#00D7FF', command=labelfrm.destroy).place(
+        relx=0.5, rely=0.96, anchor='center')
