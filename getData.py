@@ -80,7 +80,7 @@ def getData(window):
     canvas.place(relx=0.5, rely=0.5, anchor='center')
     photo = None
     index = 0
-    a = True
+
     def update_frame(canvas, photo, label, index, id, cap):
         ret, frame = cap.read()
         frame = cv2.resize(frame, dsize=None, fx=1, fy=1)
@@ -100,6 +100,7 @@ def getData(window):
         photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(frame))
         canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
         label.after(15, lambda: update_frame(canvas, photo, labelframe_left_top, index, id, cap))
+
     def laydulieu():
         if maSV.get()=='':
             messagebox.showerror('Thông báo', 'Chọn một sinh viên bất kỳ để lấy dữ liệu!')
@@ -111,13 +112,16 @@ def getData(window):
         cv2.destroyAllWindows()
         labelfrm.destroy()
         getData(window)
+
     def exit_f():
         cv2.destroyAllWindows()
         labelfrm.destroy()
+
     def open_folder():
         path = "dataSet"
         path = os.path.realpath(path)
         os.startfile(path)
+
     def select_record_st():
         maSV.delete(0, END)
         hoTen.delete(0, END)
